@@ -18,6 +18,11 @@ class MasterViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl!.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.refreshControl!.addTarget(self, action: #selector(refresh(sender:)), for: UIControlEvents.valueChanged)
+        self.tableView.addSubview(refreshControl!)
+        
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
         self.navigationItem.rightBarButtonItem = addButton
         if let split = self.splitViewController {
@@ -109,6 +114,11 @@ class MasterViewController: UITableViewController {
         }
     }
 
+    func refresh(sender:AnyObject)
+    {
+        self.tableView.reloadData()
+        self.refreshControl?.endRefreshing()
+    }
 
 }
 

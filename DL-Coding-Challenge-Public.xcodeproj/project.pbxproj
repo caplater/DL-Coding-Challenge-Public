@@ -121,7 +121,6 @@
 				3415B1441D846E0000823FBD /* AppDelegate.swift */,
 				3415B1461D846E0000823FBD /* MasterViewController.swift */,
 				3415B1481D846E0000823FBD /* DetailViewController.swift */,
-				3415B1521D846E0000823FBD /* Info.plist */,
 				3415B1841D84867E00823FBD /* cpwCurrentObservation.swift */,
 				3415B1851D84867E00823FBD /* cpwDisplayLocation.swift */,
 				3415B1861D84867E00823FBD /* cpwEstimated.swift */,
@@ -130,6 +129,7 @@
 				3415B1891D84867E00823FBD /* cpwObservationLocation.swift */,
 				3415B18A1D84867E00823FBD /* cpwResponse.swift */,
 				3415B18B1D84867E00823FBD /* cpwWeatherData.swift */,
+				3415B1521D846E0000823FBD /* Info.plist */,
 			);
 			path = "DL-Coding-Challenge-Public";
 			sourceTree = "<group>";

@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreLocation
 
-class MasterViewController: UITableViewController {
+class MasterViewController: UITableViewController, CLLocationManagerDelegate {
 
     var detailViewController: DetailViewController? = nil
     var objects = [Any]()
@@ -24,6 +25,19 @@ class MasterViewController: UITableViewController {
         self.refreshControl!.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl!.addTarget(self, action: #selector(refresh(sender:)), for: UIControlEvents.valueChanged)
         self.tableView.addSubview(refreshControl!)
+        
+        // Start CLLocationManager
+        let locationManager = CLLocationManager()
+        locationManager.delegate = self;
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
+        
+        // Attempt to get the users location
+        
+//        var userLocation:CLLocation = locations[0] as! CLLocation
+//        let long = userLocation.coordinate.longitude;
+//        let lat = userLocation.coordinate.latitude;
         
         // Add a button to allow the addition of new locations
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
@@ -103,7 +117,8 @@ class MasterViewController: UITableViewController {
         // Get the object in question as a cpwWeatherData object
         let object = objects[indexPath.row] as! cpwWeatherData
         // Display the name of the location
-        cell.textLabel!.text = object.currentObservation.displayLocation.city
+        cell.textLabel!.text = String(object.currentObservation.displayLocation.city + "\n" + object.currentObservation.observationTime)
+        cell.textLabel?.numberOfLines = 0
         return cell
     }
 
@@ -154,5 +169,21 @@ class MasterViewController: UITableViewController {
         task.resume()
     }
 
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        var userLocation:CLLocation = locations[0] 
+//        let long = userLocation.coordinate.longitude;
+//        let lat = userLocation.coordinate.latitude;
+//    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
+    }
+//    func locationManager(manager: CLLocationManager!, didUpdateLocations: locations: [AnyObject]!) {
+//        var userLocation:CLLocation = locations[0] as! CLLocation
+//        let long = userLocation.coordinate.longitude;
+//        let lat = userLocation.coordinate.latitude;
+//        //Do What ever you want with it
+//    }
 }
 

@@ -36,7 +36,7 @@ class DetailViewController: UIViewController {
             }
             // Set the temp label's text to the current temperature in Fahrenheit
             if let label3 = self.temp {
-                label3.text = NSString(format: "%.2f°F", detail.currentObservation.tempF) as String
+                label3.text = NSString(format: "%.0f°F", detail.currentObservation.tempF) as String
             }
         }
     }

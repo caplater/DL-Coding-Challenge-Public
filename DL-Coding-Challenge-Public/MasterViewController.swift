@@ -41,14 +41,16 @@ class MasterViewController: UITableViewController {
                 let wuapiJson = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
                 let weatherData = cpwWeatherData.init(fromDictionary: wuapiJson as! NSDictionary)
                 self.objects.append(weatherData)
-                
+                DispatchQueue.main.async {
+                    // execute UI updated on the main thread
+                    self.tableView.reloadData()
+                }
             } catch {
                 print("json error: \(error)")
             }
         }
         
         task.resume()
-        self.tableView.reloadData()
 
     }
 

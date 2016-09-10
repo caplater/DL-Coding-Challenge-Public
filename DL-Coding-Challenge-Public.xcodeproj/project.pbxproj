@@ -15,6 +15,14 @@
 		3415B1511D846E0000823FBD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3415B14F1D846E0000823FBD /* LaunchScreen.storyboard */; };
 		3415B15C1D846E0100823FBD /* DL_Coding_Challenge_PublicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3415B15B1D846E0100823FBD /* DL_Coding_Challenge_PublicTests.swift */; };
 		3415B1671D846E0100823FBD /* DL_Coding_Challenge_PublicUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3415B1661D846E0100823FBD /* DL_Coding_Challenge_PublicUITests.swift */; };
+		3415B18C1D84867E00823FBD /* cpwCurrentObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3415B1841D84867E00823FBD /* cpwCurrentObservation.swift */; };
+		3415B18D1D84867E00823FBD /* cpwDisplayLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3415B1851D84867E00823FBD /* cpwDisplayLocation.swift */; };
+		3415B18E1D84867E00823FBD /* cpwEstimated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3415B1861D84867E00823FBD /* cpwEstimated.swift */; };
+		3415B18F1D84867E00823FBD /* cpwFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3415B1871D84867E00823FBD /* cpwFeature.swift */; };
+		3415B1901D84867E00823FBD /* cpwImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3415B1881D84867E00823FBD /* cpwImage.swift */; };
+		3415B1911D84867E00823FBD /* cpwObservationLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3415B1891D84867E00823FBD /* cpwObservationLocation.swift */; };
+		3415B1921D84867E00823FBD /* cpwResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3415B18A1D84867E00823FBD /* cpwResponse.swift */; };
+		3415B1931D84867E00823FBD /* cpwWeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3415B18B1D84867E00823FBD /* cpwWeatherData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +57,14 @@
 		3415B1621D846E0100823FBD /* DL-Coding-Challenge-PublicUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DL-Coding-Challenge-PublicUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3415B1661D846E0100823FBD /* DL_Coding_Challenge_PublicUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DL_Coding_Challenge_PublicUITests.swift; sourceTree = "<group>"; };
 		3415B1681D846E0100823FBD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3415B1841D84867E00823FBD /* cpwCurrentObservation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cpwCurrentObservation.swift; sourceTree = "<group>"; };
+		3415B1851D84867E00823FBD /* cpwDisplayLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cpwDisplayLocation.swift; sourceTree = "<group>"; };
+		3415B1861D84867E00823FBD /* cpwEstimated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cpwEstimated.swift; sourceTree = "<group>"; };
+		3415B1871D84867E00823FBD /* cpwFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cpwFeature.swift; sourceTree = "<group>"; };
+		3415B1881D84867E00823FBD /* cpwImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cpwImage.swift; sourceTree = "<group>"; };
+		3415B1891D84867E00823FBD /* cpwObservationLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cpwObservationLocation.swift; sourceTree = "<group>"; };
+		3415B18A1D84867E00823FBD /* cpwResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cpwResponse.swift; sourceTree = "<group>"; };
+		3415B18B1D84867E00823FBD /* cpwWeatherData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cpwWeatherData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +122,14 @@
 				3415B1461D846E0000823FBD /* MasterViewController.swift */,
 				3415B1481D846E0000823FBD /* DetailViewController.swift */,
 				3415B1521D846E0000823FBD /* Info.plist */,
+				3415B1841D84867E00823FBD /* cpwCurrentObservation.swift */,
+				3415B1851D84867E00823FBD /* cpwDisplayLocation.swift */,
+				3415B1861D84867E00823FBD /* cpwEstimated.swift */,
+				3415B1871D84867E00823FBD /* cpwFeature.swift */,
+				3415B1881D84867E00823FBD /* cpwImage.swift */,
+				3415B1891D84867E00823FBD /* cpwObservationLocation.swift */,
+				3415B18A1D84867E00823FBD /* cpwResponse.swift */,
+				3415B18B1D84867E00823FBD /* cpwWeatherData.swift */,
 			);
 			path = "DL-Coding-Challenge-Public";
 			sourceTree = "<group>";
@@ -265,9 +289,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3415B1931D84867E00823FBD /* cpwWeatherData.swift in Sources */,
+				3415B18F1D84867E00823FBD /* cpwFeature.swift in Sources */,
 				3415B1491D846E0000823FBD /* DetailViewController.swift in Sources */,
+				3415B1911D84867E00823FBD /* cpwObservationLocation.swift in Sources */,
+				3415B18E1D84867E00823FBD /* cpwEstimated.swift in Sources */,
 				3415B1471D846E0000823FBD /* MasterViewController.swift in Sources */,
 				3415B1451D846E0000823FBD /* AppDelegate.swift in Sources */,
+				3415B18C1D84867E00823FBD /* cpwCurrentObservation.swift in Sources */,
+				3415B1921D84867E00823FBD /* cpwResponse.swift in Sources */,
+				3415B1901D84867E00823FBD /* cpwImage.swift in Sources */,
+				3415B18D1D84867E00823FBD /* cpwDisplayLocation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

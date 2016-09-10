@@ -29,12 +29,22 @@ class MasterViewController: UITableViewController {
         let url = NSURL(string: "https://api.wunderground.com/api/e6a24f185bbc50bc/conditions/q/CA/San_Francisco.json")
         
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
-            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue))
-            self.objects.append(data)
-            self.tableView.reloadData()
+//            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue))
+            
+//            let wuapiResponse = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            do {
+                let wuapiJson = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                let weatherData = cpwWeatherData.init(fromDictionary: wuapiJson as! NSDictionary)
+                self.objects.append(weatherData)
+                
+            } catch {
+                print("json error: \(error)")
+            }
         }
         
         task.resume()
+        self.tableView.reloadData()
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -58,7 +68,7 @@ class MasterViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                let object = objects[indexPath.row] as! NSDate
+                let object = objects[indexPath.row] as! cpwWeatherData
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
                 controller.detailItem = object
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
@@ -80,8 +90,8 @@ class MasterViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
 
-        let object = objects[indexPath.row] as! NSDate
-        cell.textLabel!.text = object.description
+        let object = objects[indexPath.row] as! cpwWeatherData
+        cell.textLabel!.text = object.currentObservation.displayLocation.city
         return cell
     }
 

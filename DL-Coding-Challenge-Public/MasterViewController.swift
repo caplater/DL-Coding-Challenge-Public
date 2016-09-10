@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MasterViewController: UITableViewController {
+class MasterViewController: UITableViewController, UIAlertViewDelegate {
 
     var detailViewController: DetailViewController? = nil
     var objects = [Any]()
@@ -65,9 +65,23 @@ class MasterViewController: UITableViewController {
     }
 
     func insertNewObject(_ sender: Any) {
-        objects.insert(NSDate(), at: 0)
-        let indexPath = IndexPath(row: 0, section: 0)
-        self.tableView.insertRows(at: [indexPath], with: .automatic)
+        
+//        let alert = UIAlertController(title: "Add Location", message: "Please enter the ZIP Code of the location you would like to add.", preferredStyle: UIAlertControllerStyle.alert)
+//        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.default, handler: nil))
+//        self.present(alert, animated: true, completion: nil)
+
+        // The following works, but is deprecated, working on a non deprecated solution above.
+//        let alert = UIAlertView.init(title: "Add Location", message: "Please enter the ZIP Code of the location you would like to add", delegate: self, cancelButtonTitle: "Add Location")
+//        alert.alertViewStyle = .plainTextInput;
+//        let zipCodeField = alert.textField(at: 0)
+//        zipCodeField?.keyboardType = .numberPad
+//        zipCodeField?.placeholder = "ZIP Code"
+//        alert.show()
+        
+        
+//        objects.insert(NSDate(), at: 0)
+//        let indexPath = IndexPath(row: 0, section: 0)
+//        self.tableView.insertRows(at: [indexPath], with: .automatic)
     }
 
     // MARK: - Segues

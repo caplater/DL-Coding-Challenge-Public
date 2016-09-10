@@ -17,14 +17,24 @@ class MasterViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        //self.navigationItem.leftBarButtonItem = self.editButtonItem
-
-        //let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
-        //self.navigationItem.rightBarButtonItem = addButton
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
+        self.navigationItem.rightBarButtonItem = addButton
         if let split = self.splitViewController {
             let controllers = split.viewControllers
             self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
         }
+        
+        // Get the weather data for the current location
+        let url = NSURL(string: "https://api.wunderground.com/api/e6a24f185bbc50bc/conditions/q/CA/San_Francisco.json")
+        
+        let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
+            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue))
+            self.objects.append(data)
+            self.tableView.reloadData()
+        }
+        
+        task.resume()
     }
 
     override func viewWillAppear(_ animated: Bool) {

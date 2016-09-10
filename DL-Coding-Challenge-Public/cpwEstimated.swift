@@ -22,7 +22,7 @@ class cpwEstimated {
 	 */
 	func toDictionary() -> NSDictionary
 	{
-		var dictionary = NSMutableDictionary()
+		let dictionary = NSMutableDictionary()
 		return dictionary
 	}
 

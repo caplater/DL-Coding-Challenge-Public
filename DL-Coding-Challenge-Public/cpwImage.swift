@@ -28,7 +28,7 @@ class cpwImage {
 	 */
 	func toDictionary() -> NSDictionary
 	{
-		var dictionary = NSMutableDictionary()
+		let dictionary = NSMutableDictionary()
 		if link != nil{
 			dictionary["link"] = link
 		}

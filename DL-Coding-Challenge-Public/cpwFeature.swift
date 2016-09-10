@@ -24,7 +24,7 @@ class cpwFeature {
 	 */
 	func toDictionary() -> NSDictionary
 	{
-		var dictionary = NSMutableDictionary()
+		let dictionary = NSMutableDictionary()
 		if conditions != nil{
 			dictionary["conditions"] = conditions
 		}

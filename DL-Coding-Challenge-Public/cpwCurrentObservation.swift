@@ -142,7 +142,7 @@ class cpwCurrentObservation {
 	 */
 	func toDictionary() -> NSDictionary
 	{
-		var dictionary = NSMutableDictionary()
+		let dictionary = NSMutableDictionary()
 		if uV != nil{
 			dictionary["UV"] = uV
 		}

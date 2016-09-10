@@ -30,7 +30,7 @@ class cpwWeatherData {
 	 */
 	func toDictionary() -> NSDictionary
 	{
-		var dictionary = NSMutableDictionary()
+		let dictionary = NSMutableDictionary()
 		if currentObservation != nil{
 			dictionary["current_observation"] = currentObservation.toDictionary()
 		}

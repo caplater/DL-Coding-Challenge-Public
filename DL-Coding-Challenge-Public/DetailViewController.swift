@@ -19,22 +19,25 @@ class DetailViewController: UIViewController {
     func configureView() {
         // Update the user interface for the detail item.
         if let detail = self.detailItem {
+            
+            // Each of these if statements checks to make sure the fields have been instantiated before trying to set them.
+            
+            // TODO: remove the detailDescriptionLabel
             if let label = self.detailDescriptionLabel {
                 label.text = ""
             }
+            // Set the city label's text to the name of the city
             if let label = self.city {
                 label.text = detail.currentObservation.displayLocation.city
             }
+            // Set the state label's text to the name of the state
             if let label2 = self.state {
                 label2.text = detail.currentObservation.displayLocation.stateName
             }
+            // Set the temp label's text to the current temperature in Fahrenheit
             if let label3 = self.temp {
                 label3.text = NSString(format: "%.2f°F", detail.currentObservation.tempF) as String
             }
-//            self.city.text = detail.currentObservation.displayLocation.city
-//            self.state.text = detail.currentObservation.displayLocation.stateName
-//            self.temp.text = NSString(format: "%.2f", detail.currentObservation.tempF) as String
-            
         }
     }
 

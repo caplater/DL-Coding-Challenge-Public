@@ -30,7 +30,7 @@ class cpwResponse {
 	 */
 	func toDictionary() -> NSDictionary
 	{
-		var dictionary = NSMutableDictionary()
+		let dictionary = NSMutableDictionary()
 		if features != nil{
 			dictionary["features"] = features.toDictionary()
 		}

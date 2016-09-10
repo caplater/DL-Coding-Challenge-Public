@@ -8,21 +8,24 @@
 
 import UIKit
 
-class MasterViewController: UITableViewController, UIAlertViewDelegate {
+class MasterViewController: UITableViewController {
 
     var detailViewController: DetailViewController? = nil
     var objects = [Any]()
+    var newZipTextField: UITextField?
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        // Enable Pull to Refresh
         self.refreshControl = UIRefreshControl()
         self.refreshControl!.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl!.addTarget(self, action: #selector(refresh(sender:)), for: UIControlEvents.valueChanged)
         self.tableView.addSubview(refreshControl!)
         
+        // Add a button to allow the addition of new locations
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
         self.navigationItem.rightBarButtonItem = addButton
         if let split = self.splitViewController {
@@ -33,24 +36,7 @@ class MasterViewController: UITableViewController, UIAlertViewDelegate {
         // Get the weather data for the current location
         let url = NSURL(string: "https://api.wunderground.com/api/e6a24f185bbc50bc/conditions/q/CA/San_Francisco.json")
         
-        let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
-//            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue))
-            
-//            let wuapiResponse = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-            do {
-                let wuapiJson = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
-                let weatherData = cpwWeatherData.init(fromDictionary: wuapiJson as! NSDictionary)
-                self.objects.append(weatherData)
-                DispatchQueue.main.async {
-                    // execute UI updated on the main thread
-                    self.tableView.reloadData()
-                }
-            } catch {
-                print("json error: \(error)")
-            }
-        }
-        
-        task.resume()
+        addLocation(url: url!)
 
     }
 
@@ -66,26 +52,30 @@ class MasterViewController: UITableViewController, UIAlertViewDelegate {
 
     func insertNewObject(_ sender: Any) {
         
-//        let alert = UIAlertController(title: "Add Location", message: "Please enter the ZIP Code of the location you would like to add.", preferredStyle: UIAlertControllerStyle.alert)
-//        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.default, handler: nil))
-//        self.present(alert, animated: true, completion: nil)
+        // Display an UIAlertView to ask for the ZIP of the new location
+        let alert = UIAlertController(title: "Add Location", message: "Please enter the ZIP Code of the location you would like to add.", preferredStyle: UIAlertControllerStyle.alert)
+        // Add a button to the UIAlertView with a completion handler to act on the new zip code
+        alert.addAction(UIAlertAction(title: "Continue", style: UIAlertActionStyle.default, handler: { alertAction in
+            // Compose an NSURL that calls the Weather Underground API with the zip code
+            let url = NSURL(string: "https://api.wunderground.com/api/e6a24f185bbc50bc/conditions/q/" + self.newZipTextField!.text! + ".json")
+            // Call our function to add location via the URL
+            self.addLocation(url: url!)
 
-        // The following works, but is deprecated, working on a non deprecated solution above.
-//        let alert = UIAlertView.init(title: "Add Location", message: "Please enter the ZIP Code of the location you would like to add", delegate: self, cancelButtonTitle: "Add Location")
-//        alert.alertViewStyle = .plainTextInput;
-//        let zipCodeField = alert.textField(at: 0)
-//        zipCodeField?.keyboardType = .numberPad
-//        zipCodeField?.placeholder = "ZIP Code"
-//        alert.show()
-        
-        
-//        objects.insert(NSDate(), at: 0)
-//        let indexPath = IndexPath(row: 0, section: 0)
-//        self.tableView.insertRows(at: [indexPath], with: .automatic)
+            }))
+        // Add a text field to the UIAlertView for the ZIP code
+        alert.addTextField { (newZipTextField) in
+            // Set the keyboard to the number pad
+            // This assumes US Zip codes. This could be expanded for non US Postal Codes
+            newZipTextField.keyboardType = .numberPad
+            // Set to instance var newZipTextField to the UIAlertView field so we can use the data later
+            self.newZipTextField = newZipTextField
+        }
+        // Display the UIAlertView
+        self.present(alert, animated: true, completion: nil)
     }
-
+    
     // MARK: - Segues
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
@@ -110,8 +100,9 @@ class MasterViewController: UITableViewController, UIAlertViewDelegate {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-
+        // Get the object in question as a cpwWeatherData object
         let object = objects[indexPath.row] as! cpwWeatherData
+        // Display the name of the location
         cell.textLabel!.text = object.currentObservation.displayLocation.city
         return cell
     }
@@ -132,8 +123,35 @@ class MasterViewController: UITableViewController, UIAlertViewDelegate {
 
     func refresh(sender:AnyObject)
     {
+        // This is called at the end of a pull to refresh
+        // First, tell the UI that the data needs to be updated.
         self.tableView.reloadData()
+        // Next (and last) stop the refreshing animation
         self.refreshControl?.endRefreshing()
+    }
+    
+    func addLocation(url:NSURL){
+        // Set up a URLSession with the URL that was passed
+        let task = URLSession.shared.dataTask(with: url as URL) {(data, response, error) in
+            // JSONSerialization can throw errors, so let's get ready to catch them
+            do {
+                // Try to run the data through the native JSONSerialiation function
+                let wuapiJson = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                // Get the data into a cpWeatherData object
+                let weatherData = cpwWeatherData.init(fromDictionary: wuapiJson as! NSDictionary)
+                // Add the cpwWeatherData object to the UITableView's Data Source
+                self.objects.append(weatherData)
+                DispatchQueue.main.async {
+                    // execute UI updated on the main thread
+                    self.tableView.reloadData()
+                }
+            } catch {
+                // TODO: Notify the user of the error
+                print("json error: \(error)")
+            }
+        }
+        // Start the task
+        task.resume()
     }
 
 }

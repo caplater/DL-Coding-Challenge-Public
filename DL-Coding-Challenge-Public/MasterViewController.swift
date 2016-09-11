@@ -14,6 +14,7 @@ class MasterViewController: UITableViewController, CLLocationManagerDelegate {
     var detailViewController: DetailViewController? = nil
     var objects = [Any]()
     var newZipTextField: UITextField?
+    var locationManager: CLLocationManager!
 
 
     override func viewDidLoad() {
@@ -26,19 +27,17 @@ class MasterViewController: UITableViewController, CLLocationManagerDelegate {
         self.refreshControl!.addTarget(self, action: #selector(refresh(sender:)), for: UIControlEvents.valueChanged)
         self.tableView.addSubview(refreshControl!)
         
+        // Attempt to get the users location
         // Start CLLocationManager
-        let locationManager = CLLocationManager()
+        locationManager = CLLocationManager()
         locationManager.delegate = self;
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
 //        locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-        
-        // Attempt to get the users location
-        
-//        var userLocation:CLLocation = locations[0] as! CLLocation
-//        let long = userLocation.coordinate.longitude;
-//        let lat = userLocation.coordinate.latitude;
+        let location:CLLocation = locationManager.location!
+        let long = location.coordinate.longitude
+        let lat = location.coordinate.latitude
         
         // Add a button to allow the addition of new locations
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
@@ -51,8 +50,7 @@ class MasterViewController: UITableViewController, CLLocationManagerDelegate {
         // Get the weather data for the current location
         // currently grabing a URL that works as CLLocationManager is not firing
         // TODO: Change this to the actual location when location can be acquired
-        let url = NSURL(string: "https://api.wunderground.com/api/e6a24f185bbc50bc/conditions/q/CA/San_Francisco.json")
-        
+        let url = NSURL(string: "https://api.wunderground.com/api/e6a24f185bbc50bc/conditions/forecast/alert/q/\(lat),\(long).json")
         addLocation(url: url!)
 
     }
@@ -205,10 +203,5 @@ class MasterViewController: UITableViewController, CLLocationManagerDelegate {
         task.resume()
     }
 
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
-        print("locations = \(locValue.latitude) \(locValue.longitude)")
-    }
 }
 

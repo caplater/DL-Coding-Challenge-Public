@@ -48,6 +48,8 @@ class MasterViewController: UITableViewController, CLLocationManagerDelegate {
         }
         
         // Get the weather data for the current location
+        // currently grabing a URL that works as CLLocationManager is not firing
+        // TODO: Change this to the actual location when location can be acquired
         let url = NSURL(string: "https://api.wunderground.com/api/e6a24f185bbc50bc/conditions/q/CA/San_Francisco.json")
         
         addLocation(url: url!)

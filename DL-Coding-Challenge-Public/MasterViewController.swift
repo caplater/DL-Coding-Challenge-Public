@@ -30,7 +30,8 @@ class MasterViewController: UITableViewController, CLLocationManagerDelegate {
         let locationManager = CLLocationManager()
         locationManager.delegate = self;
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
+//        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         
         // Attempt to get the users location
@@ -75,7 +76,9 @@ class MasterViewController: UITableViewController, CLLocationManagerDelegate {
             // Compose an NSURL that calls the Weather Underground API with the zip code
             let url = NSURL(string: "https://api.wunderground.com/api/e6a24f185bbc50bc/conditions/q/" + self.newZipTextField!.text! + ".json")
             // Call our function to add location via the URL
-            self.addLocation(url: url!)
+            if ((self.newZipTextField?.text) != "") {
+                self.addLocation(url: url!)
+            }
 
             }))
         // Add a text field to the UIAlertView for the ZIP code

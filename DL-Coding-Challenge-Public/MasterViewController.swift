@@ -93,9 +93,9 @@ class MasterViewController: UITableViewController, CLLocationManagerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                let object = objects[indexPath.row] as! cpwWeatherData
+                let object = objects[indexPath.row]
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-                controller.detailItem = object
+                controller.detailItem = object as? cpwWeatherData
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }
@@ -139,7 +139,14 @@ class MasterViewController: UITableViewController, CLLocationManagerDelegate {
     func refresh(sender:AnyObject)
     {
         // This is called at the end of a pull to refresh
-        // First, tell the UI that the data needs to be updated.
+        // First, iterrate over every object and try to update by zip code.
+        for (index,object) in objects.enumerated() {
+            let weatherObject = object as! cpwWeatherData
+            let zipCode = weatherObject.currentObservation.displayLocation.zip
+            let url = NSURL(string: "https://api.wunderground.com/api/e6a24f185bbc50bc/conditions/q/" + zipCode! + ".json")
+            self.updateLocation(index: index, url: url!)
+        }
+        // Next, tell the UI that the data needs to be updated.
         self.tableView.reloadData()
         // Next (and last) stop the refreshing animation
         self.refreshControl?.endRefreshing()
@@ -168,22 +175,35 @@ class MasterViewController: UITableViewController, CLLocationManagerDelegate {
         // Start the task
         task.resume()
     }
+    
+    func updateLocation(index: Int, url:NSURL){
+        // Set up a URLSession with the URL that was passed
+        let task = URLSession.shared.dataTask(with: url as URL) {(data, response, error) in
+            // JSONSerialization can throw errors, so let's get ready to catch them
+            do {
+                // Try to run the data through the native JSONSerialiation function
+                let wuapiJson = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                // Get the data into a cpWeatherData object
+                let weatherData = cpwWeatherData.init(fromDictionary: wuapiJson as! NSDictionary)
+                // Update the cpwWeatherData object to the UITableView's Data Source
+                self.objects[index] = weatherData
+                DispatchQueue.main.async {
+                    // execute UI updated on the main thread
+                    self.tableView.reloadData()
+                }
+            } catch {
+                // TODO: Notify the user of the error
+                print("json error: \(error)")
+            }
+        }
+        // Start the task
+        task.resume()
+    }
 
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        var userLocation:CLLocation = locations[0] 
-//        let long = userLocation.coordinate.longitude;
-//        let lat = userLocation.coordinate.latitude;
-//    }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
         print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
-//    func locationManager(manager: CLLocationManager!, didUpdateLocations: locations: [AnyObject]!) {
-//        var userLocation:CLLocation = locations[0] as! CLLocation
-//        let long = userLocation.coordinate.longitude;
-//        let lat = userLocation.coordinate.latitude;
-//        //Do What ever you want with it
-//    }
 }
 

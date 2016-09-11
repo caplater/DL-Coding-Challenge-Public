@@ -12,6 +12,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var city: UILabel!
     @IBOutlet weak var state: UILabel!
     @IBOutlet weak var temp: UILabel!
+    @IBOutlet weak var weatherIcon: UIImageView!
 
     @IBOutlet weak var detailDescriptionLabel: UILabel!
 
@@ -37,6 +38,10 @@ class DetailViewController: UIViewController {
             // Set the temp label's text to the current temperature in Fahrenheit
             if let label3 = self.temp {
                 label3.text = NSString(format: "%.0f°F", detail.currentObservation.tempF) as String
+            }
+            if let image = self.weatherIcon {
+                let imageUrl = NSURL(string: detail.currentObservation.iconUrl)
+ 
             }
         }
     }

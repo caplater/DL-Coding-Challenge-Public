@@ -122,8 +122,8 @@ class MasterViewController: UITableViewController, CLLocationManagerDelegate {
         // Get the object in question as a cpwWeatherData object
         let object = objects[indexPath.row] as! cpwWeatherData
         // Display the name of the location
-        cell.textLabel!.text = String(object.currentObservation.displayLocation.city + "\n" + object.currentObservation.observationTime)
-        cell.textLabel?.numberOfLines = 0
+        let tempstring = NSString(format: "%.0f°F", object.currentObservation.tempF) as String
+        cell.textLabel!.text = String(object.currentObservation.displayLocation.city + " - " + tempstring)
         return cell
     }
 

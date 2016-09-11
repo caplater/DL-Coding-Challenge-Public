@@ -59,5 +59,10 @@
 	<string>CPWeather would like to get your current location.</string>
 	<key>NSLocationUsageDescription</key>
 	<string>CPWeather would like to get your current location.</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
 </dict>
 </plist>

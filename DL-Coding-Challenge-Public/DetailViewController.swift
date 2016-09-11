@@ -41,7 +41,16 @@ class DetailViewController: UIViewController {
             }
             if let image = self.weatherIcon {
                 let imageUrl = NSURL(string: detail.currentObservation.iconUrl)
- 
+//                dispatch_get_global_queue( DispatchQueue.GlobalQueuePriority.default, 0).async(execute: {
+                    do {
+                        image.image =  try UIImage(data: NSData(contentsOf: imageUrl as! URL) as Data)
+                        
+                    } catch {
+                        
+                    }
+//                })
+                
+                
             }
         }
     }

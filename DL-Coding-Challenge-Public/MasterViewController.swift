@@ -72,7 +72,7 @@ class MasterViewController: UITableViewController, CLLocationManagerDelegate {
         // Add a button to the UIAlertView with a completion handler to act on the new zip code
         alert.addAction(UIAlertAction(title: "Continue", style: UIAlertActionStyle.default, handler: { alertAction in
             // Compose an NSURL that calls the Weather Underground API with the zip code
-            let url = NSURL(string: "https://api.wunderground.com/api/e6a24f185bbc50bc/conditions/q/" + self.newZipTextField!.text! + ".json")
+            let url = NSURL(string: "https://api.wunderground.com/api/e6a24f185bbc50bc/conditions/q/\(self.newZipTextField!.text!).json")
             // Call our function to add location via the URL
             if ((self.newZipTextField?.text) != "") {
                 self.addLocation(url: url!)
@@ -121,7 +121,7 @@ class MasterViewController: UITableViewController, CLLocationManagerDelegate {
         let object = objects[indexPath.row] as! cpwWeatherData
         // Display the name of the location
         let tempstring = NSString(format: "%.0f°F", object.currentObservation.tempF) as String
-        cell.textLabel!.text = String(object.currentObservation.displayLocation.city + " - " + tempstring)
+        cell.textLabel!.text = "\(object.currentObservation.displayLocation.city!) - \(tempstring)"
         return cell
     }
 
@@ -146,7 +146,7 @@ class MasterViewController: UITableViewController, CLLocationManagerDelegate {
         for (index,object) in objects.enumerated() {
             let weatherObject = object as! cpwWeatherData
             let zipCode = weatherObject.currentObservation.displayLocation.zip
-            let url = NSURL(string: "https://api.wunderground.com/api/e6a24f185bbc50bc/conditions/q/" + zipCode! + ".json")
+            let url = NSURL(string: "https://api.wunderground.com/api/e6a24f185bbc50bc/conditions/q/\(zipCode!).json")
             self.updateLocation(index: index, url: url!)
         }
         // Next, tell the UI that the data needs to be updated.
@@ -179,6 +179,10 @@ class MasterViewController: UITableViewController, CLLocationManagerDelegate {
         task.resume()
     }
     
+    /// <#Description#>
+    ///
+    /// - parameter index: <#index description#>
+    /// - parameter url:   <#url description#>
     func updateLocation(index: Int, url:NSURL){
         // Set up a URLSession with the URL that was passed
         let task = URLSession.shared.dataTask(with: url as URL) {(data, response, error) in
